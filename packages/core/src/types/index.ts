@@ -32,6 +32,7 @@ export interface Session {
 	userId: string;
 	expiresAt: Date;
 	createdAt: Date;
+	lastActivityAt: Date;
 	fresh?: boolean;
 }
 
@@ -68,9 +69,11 @@ export interface PermissionChecker {
 }
 
 export interface SessionRepository {
-	create(session: { id: string; userId: string; expiresAt: Date }): Promise<void>;
+	create(session: { id: string; userId: string; expiresAt: Date; lastActivityAt?: Date }): Promise<void>;
 	findById(id: string): Promise<Session | null>;
+	updateActivity(id: string, lastActivityAt: Date): Promise<void>;
 	delete(id: string): Promise<void>;
 	deleteByUserId(userId: string): Promise<void>;
 	deleteExpired(): Promise<void>;
+	deleteInactive(inactivityPeriod: number): Promise<void>;
 }

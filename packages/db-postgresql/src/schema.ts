@@ -52,7 +52,8 @@ export const sessions = pgTable('sessions', {
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
 	expiresAt: timestamp('expires_at').notNull(),
-	createdAt: timestamp('created_at').notNull().defaultNow()
+	createdAt: timestamp('created_at').notNull().defaultNow(),
+	lastActivityAt: timestamp('last_activity_at').notNull().defaultNow()
 });
 
 // Relations

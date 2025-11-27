@@ -151,18 +151,20 @@ export class SqliteSessionRepository implements SessionRepository {
 		this.db = db;
 	}
 
-	async create(session: { id: string; userId: string; expiresAt: Date }): Promise<void> {
+	async create(session: { id: string; userId: string; expiresAt: Date; lastActivityAt?: Date }): Promise<void> {
 		await this.db
 			.insert(schema.sessions)
 			.values({
 				id: session.id,
 				userId: session.userId,
-				expiresAt: session.expiresAt
+				expiresAt: session.expiresAt,
+				lastActivityAt: session.lastActivityAt ?? new Date()
 			})
 			.onConflictDoUpdate({
 				target: schema.sessions.id,
 				set: {
-					expiresAt: session.expiresAt
+					expiresAt: session.expiresAt,
+					lastActivityAt: session.lastActivityAt ?? new Date()
 				}
 			});
 	}
@@ -180,8 +182,16 @@ export class SqliteSessionRepository implements SessionRepository {
 			id: result.id,
 			userId: result.userId,
 			expiresAt: result.expiresAt,
-			createdAt: result.createdAt
+			createdAt: result.createdAt,
+			lastActivityAt: result.lastActivityAt
 		};
+	}
+
+	async updateActivity(id: string, lastActivityAt: Date): Promise<void> {
+		await this.db
+			.update(schema.sessions)
+			.set({ lastActivityAt })
+			.where(eq(schema.sessions.id, id));
 	}
 
 	async delete(id: string): Promise<void> {
@@ -194,6 +204,11 @@ export class SqliteSessionRepository implements SessionRepository {
 
 	async deleteExpired(): Promise<void> {
 		await this.db.delete(schema.sessions).where(lt(schema.sessions.expiresAt, new Date()));
+	}
+
+	async deleteInactive(inactivityPeriod: number): Promise<void> {
+		const inactivityThreshold = new Date(Date.now() - inactivityPeriod);
+		await this.db.delete(schema.sessions).where(lt(schema.sessions.lastActivityAt, inactivityThreshold));
 	}
 }
 

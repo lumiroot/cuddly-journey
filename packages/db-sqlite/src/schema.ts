@@ -65,6 +65,9 @@ export const sessions = sqliteTable('sessions', {
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' })
 		.notNull()
+		.$defaultFn(() => new Date()),
+	lastActivityAt: integer('last_activity_at', { mode: 'timestamp' })
+		.notNull()
 		.$defaultFn(() => new Date())
 });
 
