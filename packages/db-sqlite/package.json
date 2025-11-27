@@ -16,14 +16,14 @@
 	},
 	"dependencies": {
 		"@brixkit/core": "workspace:*",
-		"@lucia-auth/adapter-drizzle": "^1.0.0",
-		"drizzle-orm": "^0.29.1",
-		"lucia": "^3.0.1",
-		"better-sqlite3": "^9.2.2"
+		"@lucia-auth/adapter-drizzle": "^1.1.0",
+		"drizzle-orm": "^0.38.3",
+		"lucia": "^3.2.2",
+		"better-sqlite3": "^11.8.1"
 	},
 	"devDependencies": {
-		"@types/better-sqlite3": "^7.6.8",
-		"drizzle-kit": "^0.20.6",
-		"typescript": "^5.3.3"
+		"@types/better-sqlite3": "^7.6.12",
+		"drizzle-kit": "^0.30.1",
+		"typescript": "^5.7.2"
 	}
 }
