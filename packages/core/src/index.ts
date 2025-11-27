@@ -5,6 +5,9 @@
 // Export types
 export * from './types/index.js';
 
+// Export session management
+export * from './session/index.js';
+
 // Export auth
 export * from './auth/index.js';
 

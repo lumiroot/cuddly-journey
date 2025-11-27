@@ -1,62 +1,46 @@
 /**
- * Authentication implementation with Lucia
+ * Authentication implementation with custom session management
  */
 
-import { Lucia, type Session as LuciaSession, type User as LuciaUser } from 'lucia';
-import { Argon2id } from 'oslo/password';
-import type { AuthCredentials, AuthResult, Session, User, UserRepository } from '../types/index.js';
+import { Argon2id } from '@oslojs/crypto/argon2id';
+import type { AuthCredentials, AuthResult, Session, User, UserRepository, SessionRepository } from '../types/index.js';
+import { SessionManager, type SessionConfig } from '../session/index.js';
 
-export interface AuthConfig {
-	sessionExpiresIn?: {
-		activePeriod: number;
-		idlePeriod: number;
-	};
+export interface AuthConfig extends SessionConfig {
+	// Additional auth config can go here
 }
 
 /**
- * Auth service using Lucia for session management
+ * Auth service with custom session management
  */
 export class AuthService {
 	private userRepo: UserRepository;
-	private lucia: Lucia | null = null;
-	private argon2id: Argon2id;
+	private sessionManager: SessionManager;
 
-	constructor(userRepo: UserRepository, config: AuthConfig = {}) {
+	constructor(userRepo: UserRepository, sessionRepo: SessionRepository, config: AuthConfig = {}) {
 		this.userRepo = userRepo;
-		this.argon2id = new Argon2id();
-	}
-
-	/**
-	 * Initialize Lucia with an adapter
-	 * Call this method with your Lucia adapter before using authentication
-	 */
-	initializeLucia(lucia: Lucia) {
-		this.lucia = lucia;
+		this.sessionManager = new SessionManager(sessionRepo, config);
 	}
 
 	/**
 	 * Hash a password using Argon2id
 	 */
 	async hashPassword(password: string): Promise<string> {
-		return this.argon2id.hash(password);
+		return new Argon2id().hash(password);
 	}
 
 	/**
 	 * Verify a password against a hash
 	 */
 	async verifyPassword(hash: string, password: string): Promise<boolean> {
-		return this.argon2id.verify(hash, password);
+		return new Argon2id().verify(hash, new TextEncoder().encode(password));
 	}
 
 	/**
 	 * Authenticate user with username and password
 	 */
-	async authenticate(credentials: AuthCredentials): Promise<AuthResult> {
+	async authenticate(credentials: AuthCredentials): Promise<AuthResult & { token?: string }> {
 		try {
-			if (!this.lucia) {
-				return { success: false, error: 'Lucia not initialized' };
-			}
-
 			const user = await this.userRepo.findByUsername(credentials.username);
 
 			if (!user) {
@@ -77,17 +61,10 @@ export class AuthService {
 				return { success: false, error: 'Invalid credentials' };
 			}
 
-			// Create session with Lucia
-			const luciaSession = await this.lucia.createSession(user.id, {});
+			// Create session
+			const { session, token } = await this.sessionManager.createSession(user.id);
 
-			const session: Session = {
-				id: luciaSession.id,
-				userId: luciaSession.userId,
-				expiresAt: luciaSession.expiresAt,
-				createdAt: new Date()
-			};
-
-			return { success: true, user, session };
+			return { success: true, user, session, token };
 		} catch (error) {
 			return {
 				success: false,
@@ -97,81 +74,79 @@ export class AuthService {
 	}
 
 	/**
-	 * Validate a session
+	 * Create a session for a user (used for OAuth and other non-password auth)
 	 */
-	async validateSession(sessionId: string): Promise<{ session: Session; user: User } | null> {
-		if (!this.lucia) {
+	async createSessionForUser(userId: string): Promise<{ session: Session; token: string; user: User } | null> {
+		const user = await this.userRepo.findById(userId);
+
+		if (!user || !user.isActive) {
 			return null;
 		}
 
-		const result = await this.lucia.validateSession(sessionId);
+		const { session, token } = await this.sessionManager.createSession(user.id);
 
-		if (!result.session || !result.user) {
+		return { session, token, user };
+	}
+
+	/**
+	 * Validate a session token
+	 */
+	async validateSessionToken(token: string): Promise<{ session: Session; user: User } | null> {
+		const result = await this.sessionManager.validateSessionToken(token);
+
+		if (!result) {
 			return null;
 		}
 
-		const user = await this.userRepo.findById(result.user.id);
+		const user = await this.userRepo.findById(result.session.userId);
 
-		if (!user) {
+		if (!user || !user.isActive) {
+			await this.sessionManager.invalidateSession(result.session.id);
 			return null;
 		}
 
-		const session: Session = {
-			id: result.session.id,
-			userId: result.session.userId,
-			expiresAt: result.session.expiresAt,
-			createdAt: new Date()
-		};
-
-		return { session, user };
+		return { session: result.session, user };
 	}
 
 	/**
 	 * Invalidate a session (logout)
 	 */
 	async invalidateSession(sessionId: string): Promise<void> {
-		if (!this.lucia) {
-			return;
-		}
-
-		await this.lucia.invalidateSession(sessionId);
+		await this.sessionManager.invalidateSession(sessionId);
 	}
 
 	/**
 	 * Invalidate all sessions for a user
 	 */
 	async invalidateUserSessions(userId: string): Promise<void> {
-		if (!this.lucia) {
-			return;
-		}
-
-		await this.lucia.invalidateUserSessions(userId);
+		await this.sessionManager.invalidateUserSessions(userId);
 	}
 
 	/**
 	 * Create a session cookie header
 	 */
-	createSessionCookie(sessionId: string): string {
-		if (!this.lucia) {
-			throw new Error('Lucia not initialized');
-		}
-
-		const sessionCookie = this.lucia.createSessionCookie(sessionId);
-		return sessionCookie.serialize();
+	createSessionCookie(token: string): string {
+		return this.sessionManager.createSessionCookie(token);
 	}
 
 	/**
 	 * Create a blank session cookie for logout
 	 */
 	createBlankSessionCookie(): string {
-		if (!this.lucia) {
-			throw new Error('Lucia not initialized');
-		}
+		return this.sessionManager.createBlankSessionCookie();
+	}
 
-		const sessionCookie = this.lucia.createBlankSessionCookie();
-		return sessionCookie.serialize();
+	/**
+	 * Get the session cookie name
+	 */
+	getSessionCookieName(): string {
+		return this.sessionManager.getCookieName();
+	}
+
+	/**
+	 * Clean up expired sessions
+	 */
+	async cleanupExpiredSessions(): Promise<void> {
+		await this.sessionManager.cleanupExpiredSessions();
 	}
 }
-
-// Re-export Lucia types for convenience
-export type { LuciaSession, LuciaUser };

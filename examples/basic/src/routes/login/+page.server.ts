@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { authService, lucia } from '$lib/server/auth';
+import { authService } from '$lib/server/auth';
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -18,16 +18,17 @@ export const actions = {
 
 		const result = await authService.authenticate({ username, password });
 
-		if (!result.success || !result.user) {
+		if (!result.success || !result.user || !result.token) {
 			return fail(400, { error: result.error || '로그인에 실패했습니다.' });
 		}
 
-		const session = await lucia.createSession(result.user.id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-
-		cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
+		// Set session cookie
+		cookies.set(authService.getSessionCookieName(), result.token, {
+			path: '/',
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
 		});
 
 		throw redirect(303, '/dashboard');

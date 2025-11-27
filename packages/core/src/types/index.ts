@@ -32,7 +32,7 @@ export interface Session {
 	userId: string;
 	expiresAt: Date;
 	createdAt: Date;
-	metadata?: Record<string, unknown>;
+	fresh?: boolean;
 }
 
 export interface AuthCredentials {
@@ -65,4 +65,12 @@ export interface UserRepository {
 export interface PermissionChecker {
 	hasPermission(user: User, resource: string, action: string): boolean;
 	hasRole(user: User, roleName: string): boolean;
+}
+
+export interface SessionRepository {
+	create(session: { id: string; userId: string; expiresAt: Date }): Promise<void>;
+	findById(id: string): Promise<Session | null>;
+	delete(id: string): Promise<void>;
+	deleteByUserId(userId: string): Promise<void>;
+	deleteExpired(): Promise<void>;
 }

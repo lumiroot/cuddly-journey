@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { authService, userRepo, lucia } from '$lib/server/auth';
+import { authService, userRepo } from '$lib/server/auth';
 
 export const actions = {
 	default: async ({ request, cookies }) => {
@@ -34,13 +34,20 @@ export const actions = {
 				roles: []
 			});
 
-			// Create session
-			const session = await lucia.createSession(user.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
+			// Authenticate to create session
+			const result = await authService.authenticate({ username, password });
 
-			cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
+			if (!result.success || !result.token) {
+				return fail(500, { error: '로그인에 실패했습니다.' });
+			}
+
+			// Set session cookie
+			cookies.set(authService.getSessionCookieName(), result.token, {
+				path: '/',
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
+				maxAge: 60 * 60 * 24 * 30 // 30 days
 			});
 		} catch (error) {
 			console.error(error);

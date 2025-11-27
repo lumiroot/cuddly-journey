@@ -17,7 +17,7 @@
 		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"lucia": "^3.2.2",
-		"oslo": "^1.2.1"
+		"@oslojs/crypto": "^1.0.1",
+		"@oslojs/encoding": "^1.1.0"
 	}
 }

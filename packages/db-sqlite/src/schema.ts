@@ -58,17 +58,14 @@ export const rolePermissions = sqliteTable('role_permissions', {
 });
 
 export const sessions = sqliteTable('sessions', {
-	id: text('id')
-		.primaryKey()
-		.$defaultFn(() => crypto.randomUUID()),
+	id: text('id').primaryKey(),
 	userId: text('user_id')
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' })
 		.notNull()
-		.$defaultFn(() => new Date()),
-	metadata: text('metadata')
+		.$defaultFn(() => new Date())
 });
 
 // Relations

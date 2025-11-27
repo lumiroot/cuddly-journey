@@ -16,9 +16,7 @@
 	},
 	"dependencies": {
 		"@brixkit/core": "workspace:*",
-		"@lucia-auth/adapter-drizzle": "^1.1.0",
 		"drizzle-orm": "^0.38.3",
-		"lucia": "^3.2.2",
 		"postgres": "^3.4.5"
 	},
 	"devDependencies": {

@@ -11,9 +11,7 @@
 	},
 	"dependencies": {
 		"@brixkit/core": "workspace:*",
-		"arctic": "^2.0.3",
-		"lucia": "^3.2.2",
-		"oslo": "^1.2.1"
+		"arctic": "^2.0.3"
 	},
 	"devDependencies": {
 		"typescript": "^5.7.2"

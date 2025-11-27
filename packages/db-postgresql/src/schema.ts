@@ -47,13 +47,12 @@ export const rolePermissions = pgTable('role_permissions', {
 });
 
 export const sessions = pgTable('sessions', {
-	id: uuid('id').primaryKey().defaultRandom(),
+	id: varchar('id', { length: 255 }).primaryKey(),
 	userId: uuid('user_id')
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
 	expiresAt: timestamp('expires_at').notNull(),
-	createdAt: timestamp('created_at').notNull().defaultNow(),
-	metadata: text('metadata')
+	createdAt: timestamp('created_at').notNull().defaultNow()
 });
 
 // Relations

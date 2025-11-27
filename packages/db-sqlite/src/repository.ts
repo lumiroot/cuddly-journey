@@ -3,8 +3,8 @@
  */
 
 import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import { eq } from 'drizzle-orm';
-import type { User, UserRepository } from '@brixkit/core';
+import { eq, lt } from 'drizzle-orm';
+import type { User, UserRepository, Session, SessionRepository } from '@brixkit/core';
 import * as schema from './schema.js';
 
 export class SqliteUserRepository implements UserRepository {
@@ -138,6 +138,62 @@ export class SqliteUserRepository implements UserRepository {
 					}))
 				})) || []
 		};
+	}
+}
+
+/**
+ * SQLite SessionRepository implementation
+ */
+export class SqliteSessionRepository implements SessionRepository {
+	private db: BetterSQLite3Database<typeof schema>;
+
+	constructor(db: BetterSQLite3Database<typeof schema>) {
+		this.db = db;
+	}
+
+	async create(session: { id: string; userId: string; expiresAt: Date }): Promise<void> {
+		await this.db
+			.insert(schema.sessions)
+			.values({
+				id: session.id,
+				userId: session.userId,
+				expiresAt: session.expiresAt
+			})
+			.onConflictDoUpdate({
+				target: schema.sessions.id,
+				set: {
+					expiresAt: session.expiresAt
+				}
+			});
+	}
+
+	async findById(id: string): Promise<Session | null> {
+		const result = await this.db.query.sessions.findFirst({
+			where: eq(schema.sessions.id, id)
+		});
+
+		if (!result) {
+			return null;
+		}
+
+		return {
+			id: result.id,
+			userId: result.userId,
+			expiresAt: result.expiresAt,
+			createdAt: result.createdAt
+		};
+	}
+
+	async delete(id: string): Promise<void> {
+		await this.db.delete(schema.sessions).where(eq(schema.sessions.id, id));
+	}
+
+	async deleteByUserId(userId: string): Promise<void> {
+		await this.db.delete(schema.sessions).where(eq(schema.sessions.userId, userId));
+	}
+
+	async deleteExpired(): Promise<void> {
+		await this.db.delete(schema.sessions).where(lt(schema.sessions.expiresAt, new Date()));
 	}
 }
 

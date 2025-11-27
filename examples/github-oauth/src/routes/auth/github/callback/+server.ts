@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { GitHubAuthService } from '@brixkit/auth-github';
-import { userRepo, lucia } from '$lib/server/auth';
+import { userRepo, authService } from '$lib/server/auth';
 
 const githubAuth = new GitHubAuthService(
 	{
@@ -25,12 +25,20 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		const githubUser = await githubAuth.validateCallback(code);
 		const user = await githubAuth.findOrCreateUser(githubUser);
 
-		const session = await lucia.createSession(user.id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
+		// Create session for OAuth user
+		const result = await authService.createSessionForUser(user.id);
 
-		cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
+		if (!result) {
+			throw new Error('Failed to create session');
+		}
+
+		// Set session cookie
+		cookies.set(authService.getSessionCookieName(), result.token, {
+			path: '/',
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			maxAge: 60 * 60 * 24 * 30 // 30 days
 		});
 	} catch (error) {
 		console.error('GitHub OAuth error:', error);
