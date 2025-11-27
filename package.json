@@ -4,7 +4,8 @@
   "private": true,
   "description": "Brixkit - Modular SvelteKit building blocks for rapid development",
   "scripts": {
-    "dev": "pnpm --filter web dev",
+    "dev:basic": "pnpm --filter basic dev",
+    "dev:github": "pnpm --filter github-oauth dev",
     "build": "pnpm -r build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

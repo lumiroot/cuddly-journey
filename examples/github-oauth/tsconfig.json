@@ -1,0 +1,22 @@
+{
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"moduleResolution": "bundler",
+		"paths": {
+			"$lib": ["./src/lib"],
+			"$lib/*": ["./src/lib/*"],
+			"@brixkit/core": ["../../packages/core/src"],
+			"@brixkit/core/*": ["../../packages/core/src/*"],
+			"@brixkit/feature-board": ["../../packages/feature-board/src"],
+			"@brixkit/feature-board/*": ["../../packages/feature-board/src/*"]
+		}
+	}
+}

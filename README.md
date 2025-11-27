@@ -7,10 +7,12 @@ Brixkit는 재사용 가능한 SvelteKit 기반 템플릿 프로젝트입니다.
 ## 프로젝트 구조
 
 ```
-├── apps/
-│   └── web/                    # SvelteKit 메인 애플리케이션
+├── examples/
+│   ├── basic/                  # 기본 ID/Password 인증 예제
+│   └── github-oauth/           # GitHub OAuth 인증 예제
 ├── packages/
 │   ├── core/                   # 핵심 기능 (인증, 권한, 사용자 관리)
+│   ├── auth-github/            # GitHub OAuth 플러그인
 │   ├── db-postgresql/          # PostgreSQL 데이터베이스 플러그인
 │   ├── db-sqlite/              # SQLite 데이터베이스 플러그인
 │   └── feature-board/          # 게시판 기능 패키지 (예제)
@@ -33,6 +35,12 @@ Brixkit는 재사용 가능한 SvelteKit 기반 템플릿 프로젝트입니다.
 
 - **PostgreSQL** (`@brixkit/db-postgresql`): Drizzle ORM + Lucia adapter
 - **SQLite** (`@brixkit/db-sqlite`): Drizzle ORM + Lucia adapter
+
+### Authentication Plugins
+
+인증 방식별 플러그인 패키지:
+
+- **GitHub OAuth** (`@brixkit/auth-github`): GitHub OAuth 2.0 인증
 
 ### Feature Packages
 
@@ -63,15 +71,33 @@ Brixkit는 재사용 가능한 SvelteKit 기반 템플릿 프로젝트입니다.
 - Node.js >= 18.0.0
 - pnpm >= 8.0.0
 
-### 설치
+### 예제 실행
+
+Brixkit는 다양한 인증 패턴을 보여주는 예제 프로젝트를 제공합니다:
+
+#### Basic 예제 (ID/Password 인증)
 
 ```bash
-# 의존성 설치
+# 루트에서 의존성 설치
 pnpm install
 
-# 개발 서버 시작
-pnpm dev
+# Basic 예제 실행
+pnpm dev:basic
 ```
+
+자세한 내용은 [examples/basic/README.md](./examples/basic/README.md)를 참고하세요.
+
+#### GitHub OAuth 예제
+
+```bash
+# 루트에서 의존성 설치
+pnpm install
+
+# GitHub OAuth 예제 실행
+pnpm dev:github
+```
+
+자세한 내용은 [examples/github-oauth/README.md](./examples/github-oauth/README.md)를 참고하세요.
 
 ### 데이터베이스 설정
 
@@ -261,21 +287,41 @@ const post = await postService.createPost(user, {
 
 ## 플러그인 확장
 
-### SSO 인증 플러그인 추가
+### 새로운 OAuth 인증 플러그인 추가
 
-Lucia는 다양한 OAuth provider를 지원합니다:
+GitHub OAuth 플러그인(`@brixkit/auth-github`)을 참고하여 다른 OAuth provider를 추가할 수 있습니다:
+
+1. `packages/auth-provider/` 생성
+2. Arctic을 사용하여 OAuth 구현
+3. `AuthService` 클래스 작성
+
+예시 (GitHub OAuth):
 
 ```typescript
-import { GitHub } from 'arctic';
-import { generateState } from 'oslo/oauth2';
+import { GitHub, generateState } from 'arctic';
+import type { UserRepository } from '@brixkit/core';
 
-const github = new GitHub(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
+export class GitHubAuthService {
+	private github: GitHub;
 
-// OAuth 로그인 URL 생성
-const state = generateState();
-const url = await github.createAuthorizationURL(state, {
-	scopes: ['user:email']
-});
+	constructor(config, userRepo: UserRepository) {
+		this.github = new GitHub(config.clientId, config.clientSecret, config.redirectUri);
+	}
+
+	async createAuthorizationURL() {
+		const state = generateState();
+		const url = await this.github.createAuthorizationURL(state, {
+			scopes: ['user:email']
+		});
+		return { url, state };
+	}
+
+	async validateCallback(code: string) {
+		const tokens = await this.github.validateAuthorizationCode(code);
+		// GitHub 사용자 정보 가져오기
+		// 사용자 찾기 또는 생성
+	}
+}
 ```
 
 ### 새로운 데이터베이스 어댑터 추가
