@@ -1,0 +1,23 @@
+{
+	"name": "@core/types",
+	"version": "0.1.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./types": "./src/types/index.ts",
+		"./auth": "./src/auth/index.ts",
+		"./user": "./src/user/index.ts",
+		"./permissions": "./src/permissions/index.ts"
+	},
+	"scripts": {
+		"build": "tsc",
+		"check": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"bcrypt": "^5.1.1",
+		"@types/bcrypt": "^5.0.2"
+	}
+}

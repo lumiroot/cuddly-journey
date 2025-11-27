@@ -1,0 +1,27 @@
+{
+	"name": "@db/sqlite",
+	"version": "0.1.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./schema": "./src/schema.ts",
+		"./repository": "./src/repository.ts"
+	},
+	"scripts": {
+		"build": "tsc",
+		"check": "tsc --noEmit",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio"
+	},
+	"dependencies": {
+		"@core/types": "workspace:*",
+		"drizzle-orm": "^0.29.1",
+		"better-sqlite3": "^9.2.2"
+	},
+	"devDependencies": {
+		"@types/better-sqlite3": "^7.6.8",
+		"drizzle-kit": "^0.20.6",
+		"typescript": "^5.3.3"
+	}
+}

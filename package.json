@@ -1,0 +1,20 @@
+{
+  "name": "sveltekit-template-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable SvelteKit template with modular architecture",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm -r build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.1.1",
+    "prettier-plugin-svelte": "^3.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
