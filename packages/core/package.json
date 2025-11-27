@@ -7,17 +7,25 @@
 		"./types": "./src/types/index.ts",
 		"./auth": "./src/auth/index.ts",
 		"./user": "./src/user/index.ts",
-		"./permissions": "./src/permissions/index.ts"
+		"./permissions": "./src/permissions/index.ts",
+		"./schema": "./src/schema/index.ts",
+		"./schema/builder": "./src/schema/builder.ts",
+		"./schema/definitions": "./src/schema/definitions.ts",
+		"./schema/sqlite": "./src/schema/sqlite.ts",
+		"./schema/postgresql": "./src/schema/postgresql.ts"
 	},
 	"scripts": {
 		"build": "tsc",
 		"check": "tsc --noEmit"
 	},
 	"devDependencies": {
+		"@types/node": "^22.10.2",
 		"typescript": "^5.7.2"
 	},
 	"dependencies": {
+		"@node-rs/argon2": "^2.0.1",
 		"@oslojs/crypto": "^1.0.1",
-		"@oslojs/encoding": "^1.1.0"
+		"@oslojs/encoding": "^1.1.0",
+		"drizzle-orm": "^0.38.3"
 	}
 }

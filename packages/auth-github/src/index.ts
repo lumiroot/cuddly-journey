@@ -33,9 +33,7 @@ export class GitHubAuthService {
 	 */
 	async createAuthorizationURL(): Promise<{ url: URL; state: string }> {
 		const state = generateState();
-		const url = await this.github.createAuthorizationURL(state, {
-			scopes: ['user:email']
-		});
+		const url = await this.github.createAuthorizationURL(state, ['user:email']);
 
 		return { url, state };
 	}
@@ -56,7 +54,7 @@ export class GitHubAuthService {
 			throw new Error('Failed to fetch GitHub user');
 		}
 
-		const githubUser: GitHubUser = await response.json();
+		const githubUser = (await response.json()) as GitHubUser;
 
 		// Fetch email if not public
 		if (!githubUser.email) {
@@ -67,8 +65,12 @@ export class GitHubAuthService {
 			});
 
 			if (emailResponse.ok) {
-				const emails = await emailResponse.json();
-				const primaryEmail = emails.find((email: any) => email.primary);
+				const emails = (await emailResponse.json()) as Array<{
+					email: string;
+					primary: boolean;
+					verified: boolean;
+				}>;
+				const primaryEmail = emails.find((email) => email.primary);
 				if (primaryEmail) {
 					githubUser.email = primaryEmail.email;
 				}

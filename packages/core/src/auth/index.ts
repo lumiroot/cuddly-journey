@@ -2,7 +2,7 @@
  * Authentication implementation with custom session management
  */
 
-import { Argon2id } from '@oslojs/crypto/argon2id';
+import { hash, verify } from '@node-rs/argon2';
 import type { AuthCredentials, AuthResult, Session, User, UserRepository, SessionRepository } from '../types/index.js';
 import { SessionManager, type SessionConfig } from '../session/index.js';
 
@@ -26,14 +26,14 @@ export class AuthService {
 	 * Hash a password using Argon2id
 	 */
 	async hashPassword(password: string): Promise<string> {
-		return new Argon2id().hash(password);
+		return hash(password);
 	}
 
 	/**
 	 * Verify a password against a hash
 	 */
-	async verifyPassword(hash: string, password: string): Promise<boolean> {
-		return new Argon2id().verify(hash, new TextEncoder().encode(password));
+	async verifyPassword(passwordHash: string, password: string): Promise<boolean> {
+		return verify(passwordHash, password);
 	}
 
 	/**
