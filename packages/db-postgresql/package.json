@@ -1,5 +1,5 @@
 {
-	"name": "@db/postgresql",
+	"name": "@brixkit/db-postgresql",
 	"version": "0.1.0",
 	"type": "module",
 	"exports": {
@@ -15,8 +15,10 @@
 		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
-		"@core/types": "workspace:*",
+		"@brixkit/core": "workspace:*",
+		"@lucia-auth/adapter-drizzle": "^1.0.0",
 		"drizzle-orm": "^0.29.1",
+		"lucia": "^3.0.1",
 		"postgres": "^3.4.3"
 	},
 	"devDependencies": {

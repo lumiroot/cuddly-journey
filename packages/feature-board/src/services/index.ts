@@ -2,7 +2,7 @@
  * Board feature business logic
  */
 
-import type { User, PermissionChecker } from '@core/types';
+import type { User, PermissionChecker } from '@brixkit/core';
 import type {
 	Board,
 	Post,

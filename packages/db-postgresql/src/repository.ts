@@ -4,7 +4,7 @@
 
 import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq } from 'drizzle-orm';
-import type { User, UserRepository } from '@core/types';
+import type { User, UserRepository } from '@brixkit/core';
 import * as schema from './schema.js';
 
 export class PostgresUserRepository implements UserRepository {

@@ -13,7 +13,10 @@
 		"paths": {
 			"$lib": ["./src/lib"],
 			"$lib/*": ["./src/lib/*"],
-			"@core/*": ["../../packages/core/src/*"]
+			"@brixkit/core": ["../../packages/core/src"],
+			"@brixkit/core/*": ["../../packages/core/src/*"],
+			"@brixkit/feature-board": ["../../packages/feature-board/src"],
+			"@brixkit/feature-board/*": ["../../packages/feature-board/src/*"]
 		}
 	}
 }

@@ -1,8 +1,8 @@
 {
-  "name": "sveltekit-template-monorepo",
+  "name": "brixkit",
   "version": "0.1.0",
   "private": true,
-  "description": "Reusable SvelteKit template with modular architecture",
+  "description": "Brixkit - Modular SvelteKit building blocks for rapid development",
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm -r build",

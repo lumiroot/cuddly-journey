@@ -24,9 +24,10 @@
   },
   "type": "module",
   "dependencies": {
-    "@core/types": "workspace:*",
-    "@feature/board": "workspace:*",
+    "@brixkit/core": "workspace:*",
+    "@brixkit/feature-board": "workspace:*",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.2.0"
+    "tailwind-merge": "^2.2.0",
+    "lucia": "^3.0.1"
   }
 }

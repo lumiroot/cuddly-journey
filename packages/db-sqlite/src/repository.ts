@@ -4,7 +4,7 @@
 
 import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import { eq } from 'drizzle-orm';
-import type { User, UserRepository } from '@core/types';
+import type { User, UserRepository } from '@brixkit/core';
 import * as schema from './schema.js';
 
 export class SqliteUserRepository implements UserRepository {
