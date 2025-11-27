@@ -17,6 +17,18 @@
 		"@brixkit/core": "workspace:*",
 		"drizzle-orm": "^0.38.3"
 	},
+	"peerDependencies": {
+		"@brixkit/db-sqlite": "workspace:*",
+		"@brixkit/db-postgresql": "workspace:*"
+	},
+	"peerDependenciesMeta": {
+		"@brixkit/db-sqlite": {
+			"optional": true
+		},
+		"@brixkit/db-postgresql": {
+			"optional": true
+		}
+	},
 	"devDependencies": {
 		"@types/node": "^22.10.2",
 		"svelte": "^5.14.6",

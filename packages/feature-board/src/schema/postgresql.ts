@@ -4,7 +4,7 @@
 
 import { pgTable, uuid, varchar, text, timestamp, boolean, integer } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { users } from '@brixkit/core/schema/postgresql';
+import { users } from '@brixkit/db-postgresql';
 
 export const boards = pgTable('boards', {
 	id: uuid('id').primaryKey().defaultRandom(),

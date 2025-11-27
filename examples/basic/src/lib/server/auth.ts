@@ -3,12 +3,12 @@
  */
 
 import { AuthService } from '@brixkit/core';
-import { SqliteUserRepository, SqliteSessionRepository } from '@brixkit/db-sqlite';
+import { createUserRepository, createSessionRepository } from '@brixkit/db-sqlite';
 import { db } from './db';
 
-// Create repositories
-export const userRepo = new SqliteUserRepository(db);
-export const sessionRepo = new SqliteSessionRepository(db);
+// Create repositories using helper functions
+export const userRepo = createUserRepository(db);
+export const sessionRepo = createSessionRepository(db);
 
 // Create auth service
 export const authService = new AuthService(userRepo, sessionRepo, {

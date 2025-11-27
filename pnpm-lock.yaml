@@ -203,6 +203,12 @@ importers:
       '@brixkit/core':
         specifier: workspace:*
         version: link:../core
+      '@brixkit/db-postgresql':
+        specifier: workspace:*
+        version: link:../db-postgresql
+      '@brixkit/db-sqlite':
+        specifier: workspace:*
+        version: link:../db-sqlite
       drizzle-orm:
         specifier: ^0.38.3
         version: 0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)(postgres@3.4.7)

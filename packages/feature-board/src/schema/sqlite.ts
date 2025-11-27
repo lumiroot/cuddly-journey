@@ -4,7 +4,7 @@
 
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
-import { users } from '@brixkit/core/schema/sqlite';
+import { users } from '@brixkit/db-sqlite';
 
 export const boards = sqliteTable('boards', {
 	id: text('id')
