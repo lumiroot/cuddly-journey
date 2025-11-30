@@ -8,7 +8,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$lib: './src/lib',
-			'@brixkit/*': '../../packages/*/src/*'
+			'@brixkit/*': '../../packages/*/src'
 		}
 	}
 };
