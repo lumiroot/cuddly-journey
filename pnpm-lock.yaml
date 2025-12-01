@@ -20,12 +20,21 @@ importers:
       '@brixkit/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@brixkit/db-sqlite':
+        specifier: workspace:*
+        version: link:../../packages/db-sqlite
       '@brixkit/feature-board':
         specifier: workspace:*
         version: link:../../packages/feature-board
+      better-sqlite3:
+        specifier: ^11.8.1
+        version: 11.10.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      drizzle-orm:
+        specifier: ^0.38.3
+        version: 0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)(postgres@3.4.7)
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.0
@@ -39,6 +48,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.2.1
         version: 6.2.1(svelte@5.45.2)(vite@6.4.1(@types/node@24.10.1))
+      '@types/better-sqlite3':
+        specifier: ^7.6.12
+        version: 7.6.13
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.22(postcss@8.5.6)
@@ -72,12 +84,21 @@ importers:
       '@brixkit/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@brixkit/db-sqlite':
+        specifier: workspace:*
+        version: link:../../packages/db-sqlite
       '@brixkit/feature-board':
         specifier: workspace:*
         version: link:../../packages/feature-board
+      better-sqlite3:
+        specifier: ^11.8.1
+        version: 11.10.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      drizzle-orm:
+        specifier: ^0.38.3
+        version: 0.38.4(@types/better-sqlite3@7.6.13)(better-sqlite3@11.10.0)(postgres@3.4.7)
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.0
@@ -91,6 +112,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.2.1
         version: 6.2.1(svelte@5.45.2)(vite@6.4.1(@types/node@24.10.1))
+      '@types/better-sqlite3':
+        specifier: ^7.6.12
+        version: 7.6.13
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.22(postcss@8.5.6)
