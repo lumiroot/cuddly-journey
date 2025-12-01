@@ -9,7 +9,7 @@ import type { Config } from 'drizzle-kit';
 
 export default {
 	schema: [
-		'../../packages/core/src/schema/sqlite.ts',
+		'../../packages/db-sqlite/src/schema.ts',
 		'../../packages/feature-board/src/schema/sqlite.ts'
 	],
 	out: './drizzle',
