@@ -1,0 +1,18 @@
+{
+	"name": "base",
+	"description": "Base SvelteKit template with TypeScript and TailwindCSS",
+	"dependencies": [
+		"@sveltejs/kit",
+		"@sveltejs/adapter-auto",
+		"svelte",
+		"vite"
+	],
+	"devDependencies": [
+		"typescript",
+		"tslib",
+		"@sveltejs/vite-plugin-svelte",
+		"tailwindcss",
+		"autoprefixer",
+		"postcss"
+	]
+}
