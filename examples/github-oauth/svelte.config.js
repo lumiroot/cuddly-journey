@@ -8,7 +8,11 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$lib: './src/lib',
-			'@brixkit/*': '../../packages/*/src'
+			'@brixkit/core': '../../packages/core/src',
+			'@brixkit/db-sqlite': '../../packages/db-sqlite/src',
+			'@brixkit/db-postgresql': '../../packages/db-postgresql/src',
+			'@brixkit/feature-board': '../../packages/feature-board/src',
+			'@brixkit/auth-github': '../../packages/auth-github/src'
 		}
 	}
 };
