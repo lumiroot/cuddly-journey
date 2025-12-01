@@ -24,6 +24,5 @@ export function createSessionRepository(db: ReturnType<typeof drizzle<typeof sch
 	return new DrizzleSessionRepository(db as any, schema);
 }
 
-// Backward compatibility exports
-export const PostgresUserRepository = DrizzleUserRepository;
-export const PostgresSessionRepository = DrizzleSessionRepository;
+// Re-export repository classes for direct instantiation if needed
+export { DrizzleUserRepository as PostgresUserRepository, DrizzleSessionRepository as PostgresSessionRepository } from '@brixkit/core/repository';

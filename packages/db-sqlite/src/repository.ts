@@ -23,6 +23,5 @@ export function createSessionRepository(db: BetterSQLite3Database<typeof schema>
 	return new DrizzleSessionRepository(db as any, schema);
 }
 
-// Backward compatibility exports
-export const SqliteUserRepository = DrizzleUserRepository;
-export const SqliteSessionRepository = DrizzleSessionRepository;
+// Re-export repository classes for direct instantiation if needed
+export { DrizzleUserRepository as SqliteUserRepository, DrizzleSessionRepository as SqliteSessionRepository } from '@brixkit/core/repository';
