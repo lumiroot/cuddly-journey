@@ -4,7 +4,7 @@
  */
 
 import { eq } from 'drizzle-orm';
-import type { User, UserRepository } from '../types/index.js';
+import type { User, UserRepository } from '../types/index.ts';
 
 /**
  * Schema interface that repositories expect

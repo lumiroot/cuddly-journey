@@ -4,10 +4,10 @@
 
 import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import { DrizzleUserRepository, DrizzleSessionRepository } from '@brixkit/core/repository';
-import * as schema from './schema.js';
+import * as schema from './schema.ts';
 
 export { drizzle };
-export * from './schema.js';
+export * from './schema.ts';
 
 /**
  * Create a UserRepository instance for SQLite

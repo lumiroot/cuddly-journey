@@ -3,8 +3,8 @@
  */
 
 import { hash, verify } from '@node-rs/argon2';
-import type { AuthCredentials, AuthResult, Session, User, UserRepository, SessionRepository } from '../types/index.js';
-import { SessionManager, type SessionConfig } from '../session/index.js';
+import type { AuthCredentials, AuthResult, Session, User, UserRepository, SessionRepository } from '../types/index.ts';
+import { SessionManager, type SessionConfig } from '../session/index.ts';
 
 export interface AuthConfig extends SessionConfig {
 	// Additional auth config can go here

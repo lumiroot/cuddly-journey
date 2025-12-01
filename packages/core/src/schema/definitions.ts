@@ -2,7 +2,7 @@
  * Core schema definitions (vendor-agnostic)
  */
 
-import { defineTable, field, type TableDefinition } from './builder.js';
+import { defineTable, field, type TableDefinition } from './builder.ts';
 
 /**
  * Users table

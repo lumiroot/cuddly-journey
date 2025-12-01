@@ -2,7 +2,7 @@
  * User management utilities
  */
 
-import type { User, UserRepository } from '../types/index.js';
+import type { User, UserRepository } from '../types/index.ts';
 
 export class UserService {
 	constructor(private repo: UserRepository) {}

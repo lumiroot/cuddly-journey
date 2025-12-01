@@ -5,7 +5,7 @@
 
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
-import type { Session, SessionRepository } from '../types/index.js';
+import type { Session, SessionRepository } from '../types/index.ts';
 
 export interface SessionConfig {
 	/**

@@ -3,6 +3,6 @@
  * Provides board, post, and comment functionality
  */
 
-export * from './schema/index.js';
-export * from './services/index.js';
-export * from './components/index.js';
+export * from './schema/index.ts';
+export * from './services/index.ts';
+export * from './components/index.ts';

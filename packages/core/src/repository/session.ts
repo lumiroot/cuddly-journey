@@ -4,8 +4,8 @@
  */
 
 import { eq, lt } from 'drizzle-orm';
-import type { Session, SessionRepository } from '../types/index.js';
-import type { CoreSchema, DrizzleDatabase } from './user.js';
+import type { Session, SessionRepository } from '../types/index.ts';
+import type { CoreSchema, DrizzleDatabase } from './user.ts';
 
 /**
  * Generic SessionRepository implementation

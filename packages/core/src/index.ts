@@ -3,16 +3,16 @@
  */
 
 // Export types
-export * from './types/index.js';
+export * from './types/index.ts';
 
 // Export session management
-export * from './session/index.js';
+export * from './session/index.ts';
 
 // Export auth
-export * from './auth/index.js';
+export * from './auth/index.ts';
 
 // Export permissions
-export * from './permissions/index.js';
+export * from './permissions/index.ts';
 
 // Export user service
-export * from './user/index.js';
+export * from './user/index.ts';

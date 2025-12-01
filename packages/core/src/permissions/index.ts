@@ -2,7 +2,7 @@
  * Permission and authorization checking
  */
 
-import type { User, PermissionChecker } from '../types/index.js';
+import type { User, PermissionChecker } from '../types/index.ts';
 
 export class BasicPermissionChecker implements PermissionChecker {
 	hasPermission(user: User, resource: string, action: string): boolean {

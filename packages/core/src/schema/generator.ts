@@ -2,7 +2,7 @@
  * Generates Drizzle schemas from table definitions
  */
 
-import type { Dialect, TableDefinition } from './builder.js';
+import type { Dialect, TableDefinition } from './builder.ts';
 
 interface GeneratorContext {
 	dialect: Dialect;

@@ -2,5 +2,5 @@
  * SQLite database plugin
  */
 
-export * from './schema.js';
-export * from './repository.js';
+export * from './schema.ts';
+export * from './repository.ts';

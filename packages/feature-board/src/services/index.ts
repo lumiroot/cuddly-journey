@@ -12,7 +12,7 @@ import type {
 	CommentRepository,
 	PostWithAuthor,
 	CommentWithAuthor
-} from '../schema/index.js';
+} from '../schema/index.ts';
 
 export class BoardService {
 	constructor(

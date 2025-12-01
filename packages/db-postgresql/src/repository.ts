@@ -5,10 +5,10 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { DrizzleUserRepository, DrizzleSessionRepository } from '@brixkit/core/repository';
 import type postgres from 'postgres';
-import * as schema from './schema.js';
+import * as schema from './schema.ts';
 
 export { drizzle };
-export * from './schema.js';
+export * from './schema.ts';
 
 /**
  * Create a UserRepository instance for PostgreSQL

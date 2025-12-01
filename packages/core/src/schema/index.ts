@@ -2,6 +2,6 @@
  * Schema exports - vendor-agnostic schema builder and definitions
  */
 
-export * from './builder.js';
-export * from './definitions.js';
-export * from './generator.js';
+export * from './builder.ts';
+export * from './definitions.ts';
+export * from './generator.ts';
