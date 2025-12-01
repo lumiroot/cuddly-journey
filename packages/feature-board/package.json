@@ -5,6 +5,8 @@
 	"exports": {
 		".": "./src/index.ts",
 		"./schema": "./src/schema/index.ts",
+		"./schema/sqlite": "./src/schema/sqlite.ts",
+		"./schema/postgresql": "./src/schema/postgresql.ts",
 		"./services": "./src/services/index.ts",
 		"./components": "./src/components/index.ts",
 		"./routes": "./src/routes/index.ts"

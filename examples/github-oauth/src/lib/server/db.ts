@@ -7,14 +7,7 @@
 
 import Database from 'better-sqlite3';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
-import * as coreSchema from '@brixkit/db-sqlite';
-import { sqliteSchema as boardSchema } from '@brixkit/feature-board/schema';
-
-// Combine core and feature schemas
-const schema = {
-	...coreSchema,
-	...boardSchema
-};
+import { schema } from './schema.ts';
 
 const sqlite = new Database(process.env.DATABASE_URL || './data/db.sqlite');
 export const db = drizzle(sqlite, { schema });

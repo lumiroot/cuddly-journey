@@ -8,10 +8,7 @@
 import type { Config } from 'drizzle-kit';
 
 export default {
-	schema: [
-		'../../packages/db-sqlite/src/schema.ts',
-		'../../packages/feature-board/src/schema/sqlite.ts'
-	],
+	schema: './src/lib/server/schema.ts',
 	out: './drizzle',
 	dialect: 'sqlite',
 	dbCredentials: {
