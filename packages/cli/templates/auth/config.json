@@ -1,0 +1,10 @@
+{
+	"name": "auth",
+	"description": "Authentication with users, sessions, roles, and permissions",
+	"requires": ["database"],
+	"dependencies": {
+		"@node-rs/argon2": "^1.8.0",
+		"@oslojs/encoding": "^1.1.0",
+		"@oslojs/crypto": "^1.0.1"
+	}
+}
